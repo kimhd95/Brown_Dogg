@@ -1,0 +1,12 @@
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true">
+
+    <item android:drawable="@drawable/greenmonster"
+        android:duration="@string/duration"/>
+    <item android:drawable="@drawable/greenmonster"
+        android:duration="@string/duration"/>
+
+
+
+
+</animation-list>
