@@ -157,7 +157,7 @@ public class FirstFragment extends Fragment{
         ConnectServer connectServer = new ConnectServer();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-                connectServer.requestPost(url, jsonArray.getJSONObject(i).getString("Name"), jsonArray.getJSONObject(i).getString("Phone"));
+                connectServer.requestPost(url+"addcontact", jsonArray.getJSONObject(i).getString("Name"), jsonArray.getJSONObject(i).getString("Phone"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
