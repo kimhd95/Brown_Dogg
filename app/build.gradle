@@ -39,4 +39,5 @@ dependencies {
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     implementation 'com.github.ivbaranov:materiallettericon:0.2.3'
     implementation 'com.squareup.okhttp3:okhttp:3.3.0'
+    implementation files('libs/mongo-java-driver-3.4.0-SNAPSHOT.jar')
 }

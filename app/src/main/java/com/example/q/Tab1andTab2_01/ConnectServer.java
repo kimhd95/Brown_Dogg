@@ -2,12 +2,15 @@ package com.example.q.Tab1andTab2_01;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -46,10 +49,11 @@ public class ConnectServer {
 
 
 
-    public void requestPost(String url, String name, String phone) {
+    public void requestPost(String url, JSONObject json) {
 
         //Request Body에 서버에 보낼 데이터 작성
-        RequestBody requestBody = new FormBody.Builder().add("Name", name).add("Phone", phone).build();
+        MediaType JSON = MediaType.parse("application.jsonl charset=utf-8");
+        RequestBody requestBody = RequestBody.create(JSON, json.toString());
 
         //작성한 Request Body와 데이터를 보낼 url을 Request에 붙임
         Request request = new Request.Builder().url(url).post(requestBody).build();

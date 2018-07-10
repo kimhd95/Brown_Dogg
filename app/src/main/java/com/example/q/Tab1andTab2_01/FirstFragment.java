@@ -24,6 +24,19 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.MongoException;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.util.JSON;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +58,7 @@ public class FirstFragment extends Fragment{
     private final static String SpecialNumber = "010-0000-0000";
     SQLiteDatabase db;
     private JSONArray jsonArray = new JSONArray();
-    private static final String url = "http://52.231.69.145:8080/";
+    private static final String url = "http://52.231.71.25:8080/";
 
 
     @Override
@@ -100,18 +113,16 @@ public class FirstFragment extends Fragment{
             String cur_phone = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             Cursor inSQLite = db.rawQuery("SELECT Name, Phone FROM contact WHERE Name=\"" +
                     cur_name+"\" and Phone=\"" + cur_phone + "\"", null);
-            // 연락처에 새로 추가된 것이면 데이터베이스 갱신,   JsonArray에 저장
-            if (inSQLite.getCount() < 1) {
-                db.execSQL("INSERT INTO contact VALUES (\"" + cur_name + "\", \"" + cur_phone +"\")");
-                JSONObject json = new JSONObject();
-                try {
-                    json.put("Name", cur_name);
-                    json.put("Phone", cur_phone);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                jsonArray.put(json);
+            db.execSQL("INSERT INTO contact VALUES (\"" + cur_name + "\", \"" + cur_phone +"\")");
+            JSONObject json = new JSONObject();
+            try {
+                json.put("Name", cur_name);
+                json.put("Phone", cur_phone);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            // 연락처에 새로 추가된 것이면 데이터베이스 갱신,   JsonArray에 저장
+            jsonArray.put(json);
         }
         phones.close();
 
@@ -157,7 +168,7 @@ public class FirstFragment extends Fragment{
         ConnectServer connectServer = new ConnectServer();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-                connectServer.requestPost(url, jsonArray.getJSONObject(i).getString("Name"), jsonArray.getJSONObject(i).getString("Phone"));
+                connectServer.requestPost(url, jsonArray.getJSONObject(i));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
