@@ -7,23 +7,47 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.mongodb.util.JSON;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class SecondFragment extends Fragment {
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+public class SecondFragment extends Fragment implements View.OnClickListener {
     public SecondFragment(){
     }
 
@@ -34,6 +58,7 @@ public class SecondFragment extends Fragment {
     String permissions= new String (Manifest.permission.READ_EXTERNAL_STORAGE);
     private int PERMISSION_REQUEST_CODE = 200;
     AlbumView albumView = new AlbumView();
+    Button myButton;
 
 
 
@@ -52,6 +77,8 @@ public class SecondFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(),2);  // 이거는 gallery를 보여주는 것과는 상관없음
         mRecyclerView.setLayoutManager(gridLayoutManager);
+        myButton = (Button) view.findViewById(R.id.button2);
+        myButton.setOnClickListener(this);
 
         if (adapter == null) {
             adapter = new GalleryPickerAdapter(getActivity().getApplicationContext());
@@ -61,6 +88,59 @@ public class SecondFragment extends Fragment {
         //startActivity(intent);
         return view;
         //return layout;
+    }
+
+    @Override
+    public void onClick(View v) {
+        String url = "http://52.231.71.25:8080/";
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder().add("Backup", "1").build();
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("error", "Connect Server Error is " + e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String res = response.body().string();
+                response.body().close();
+                Log.d("aaaa", "Response Body is " + res);
+                try {
+                    JSONObject jsonObject = new JSONObject("{"+"Pictures"+":"+res+"}");
+                    JSONArray arr = jsonObject.getJSONArray("Pictures");
+                    for(int i=0; i< arr.length(); i++){
+                        String encodedImage = arr.getJSONObject(i).getString("Image").replace("\n", "");
+                        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        saveImage(decodedByte, arr.getJSONObject(i).getString("Imagename").replace("\n", ""));
+                        Log.d("", "ok" );
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    private void saveImage(Bitmap finalBitmap, String image_name) {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
+        myDir.mkdirs();
+        String fname = "Image-" + image_name+ ".jpg";
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
+        Log.i("LOAD", root + fname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

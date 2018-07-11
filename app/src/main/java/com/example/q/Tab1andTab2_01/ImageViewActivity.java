@@ -42,6 +42,7 @@ public class ImageViewActivity extends AppCompatActivity {
     int position;
     ArrayList<String> list;
     Context context;
+    String imagename;
 
 
     @Override
@@ -56,6 +57,7 @@ public class ImageViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         position = intent.getExtras().getInt("Position");
         list = intent.getStringArrayListExtra("paths");
+        imagename = intent.getExtras().getString("photoname");
 
 
         pageradapter = new ViewPagerAdapter(context,list);
@@ -100,7 +102,7 @@ public class ImageViewActivity extends AppCompatActivity {
         Toast.makeText(this, "Upload successful!", Toast.LENGTH_SHORT).show();
         /** c. jsonArray 서버에 전송 **/
         OkHttpClient okHttpClient = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder().add("Image", converToBase64(list.get(Integer.parseInt(currentCount.getText().toString())-1)).replace("\n", "")).build();
+        RequestBody requestBody = new FormBody.Builder().add("Image", converToBase64(list.get(Integer.parseInt(currentCount.getText().toString())-1)).replace("\n", "")).add("Imagename", imagename).build();
         Request request = new Request.Builder().url(url).post(requestBody).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override

@@ -103,6 +103,7 @@ public class GalleryPickerAdapter extends RecyclerView.Adapter<GalleryPickerAdap
                     intent.putStringArrayListExtra("paths", paths);
                     Log.d("MyTag","else5");
                     intent.putExtra("Position",position);
+                    intent.putExtra("photoname", model.getImageName());
                     Log.d("MyTag","else6");
                     context.startActivity(intent);
                     Log.d("MyTag","else7    ");
