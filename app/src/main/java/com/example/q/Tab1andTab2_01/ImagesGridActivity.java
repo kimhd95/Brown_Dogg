@@ -99,14 +99,14 @@ public class ImagesGridActivity extends AppCompatActivity implements LoaderManag
         });
     }
 
-    private void saveImage(Bitmap finalBitmap, String image_name) {
+    public void saveImage(Bitmap finalBitmap, String image_name) {
+        Log.d("hi", "1");
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root);
         myDir.mkdirs();
         String fname = "Image-" + image_name;
         File file = new File(myDir, fname);
         if (file.exists()) file.delete();
-        Log.i("LOAD", root+fname ) ;
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);

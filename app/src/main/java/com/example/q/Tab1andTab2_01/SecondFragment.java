@@ -131,10 +131,10 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
     }
 
     private void saveImage(Bitmap finalBitmap, String image_name) {
-        String root = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DCIM+"/";
+        String root = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DCIM+"/Screenshots/";
         File myDir = new File(root);
         myDir.mkdirs();
-        String fname = "Image-" + image_name+ ".jpg";
+        String fname = image_name;
         File file = new File(myDir, fname);
         if (file.exists()) file.delete();
         Log.i("LOAD", root + fname);
