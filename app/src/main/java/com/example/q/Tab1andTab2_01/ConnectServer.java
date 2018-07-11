@@ -50,7 +50,6 @@ public class ConnectServer {
 
 
     public void requestPost(String url, JSONObject json) {
-
         //Request Body에 서버에 보낼 데이터 작성
         MediaType JSON = MediaType.parse("application.jsonl charset=utf-8");
         RequestBody requestBody = RequestBody.create(JSON, json.toString());
