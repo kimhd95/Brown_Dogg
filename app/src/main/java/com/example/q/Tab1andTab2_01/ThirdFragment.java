@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -41,7 +42,7 @@ public class ThirdFragment extends Fragment {
     public ThirdFragment(){
     }
 
-    private Intent intent;
+    private Intent intent_add, intent_view;
     private ListView listView;
     private ListViewAdapter adapter;
     private ArrayList<ContentModel> contentModelArrayList;
@@ -57,7 +58,7 @@ public class ThirdFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         connectServer = new ConnectServer();
         View view = inflater.inflate(R.layout.fragment_third,null);
@@ -70,18 +71,37 @@ public class ThirdFragment extends Fragment {
         adapter = new ListViewAdapter(getActivity(), contentModelArrayList);
         listView.setAdapter(adapter);
 
+        /** 2. 아이템 클릭 **/
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String title = contentModelArrayList.get(position).getTitle();
+                String author = contentModelArrayList.get(position).getAuthor();
+                String text = contentModelArrayList.get(position).getText();
+
+                intent_view = new Intent(getActivity(), viewDetailBoard.class);
+                intent_view.putExtra("Title", title);
+                intent_view.putExtra("Author", author);
+                intent_view.putExtra("Text", text);
+
+                startActivity(intent_view);
+            }
+        });
+
+
+
         FloatingActionButton add_FAB = (FloatingActionButton) view.findViewById(R.id.add);
         FloatingActionButton refresh_FAB = (FloatingActionButton) view.findViewById(R.id.refresh);
-        /** 2. Add **/
+        /** 3. Add **/
         add_FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /** 2-1-1. 새로운 intent 띄움 **/
-                intent = new Intent(getActivity(), AddItemActivity.class);
-                startActivityForResult(intent, 1111);
-                /** 2-1-2. intent에서 서버에 request **/
+                /** 3-1-1. 새로운 intent 띄움 **/
+                intent_add = new Intent(getActivity(), AddItemActivity.class);
+                startActivityForResult(intent_add, 1111);
+                /** 3-1-2. intent에서 서버에 request **/
 
-                /** 2-3. 새로고침 **/
+                /** 3-3. 새로고침 **/
             }
         });
         /** 1. 새로고침 **/
@@ -114,7 +134,7 @@ public class ThirdFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1111) {
             if(resultCode == 1234) {
-                /** 3-3. 새로고침 **/
+                /** 3-3. 새로고침 (추가가 제대로 됐으면) **/
             }
         }
     }
