@@ -59,7 +59,7 @@ public class FirstFragment extends Fragment{
     SQLiteDatabase db;
     private JSONArray jsonArray_del = new JSONArray();
     private JSONArray jsonArray_add = new JSONArray();
-    private static final String url = "http://52.231.69.145:8080/";
+    private static final String url = "http://52.231.71.25:8080/";
 
 
 
