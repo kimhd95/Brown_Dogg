@@ -46,7 +46,6 @@ public class ThirdFragment extends Fragment {
     private ListViewAdapter adapter;
     private ArrayList<ContentModel> contentModelArrayList;
     private SQLiteDatabase DB;
-    private mComparator comparator;
     private ConnectServer connectServer;
     private static final String url = "http://52.231.69.145:8080/";
 
