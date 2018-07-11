@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class ImageViewActivity extends AppCompatActivity {
@@ -29,6 +42,8 @@ public class ImageViewActivity extends AppCompatActivity {
     int position;
     ArrayList<String> list;
     Context context;
+    String imagename;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +57,7 @@ public class ImageViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         position = intent.getExtras().getInt("Position");
         list = intent.getStringArrayListExtra("paths");
+        imagename = intent.getExtras().getString("photoname");
 
 
         pageradapter = new ViewPagerAdapter(context,list);
@@ -69,6 +85,39 @@ public class ImageViewActivity extends AppCompatActivity {
 
 
     }
+
+    public String converToBase64(String imagePath) {
+        Bitmap bm = BitmapFactory.decodeFile(imagePath);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] byteArrayImage = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
+        Log.d("11", encodedImage);
+        return encodedImage;
+    }
+
+    public void sendimage(View v) {
+        String url = "http://52.231.71.25:8080/";
+
+        Toast.makeText(this, "Upload successful!", Toast.LENGTH_SHORT).show();
+        /** c. jsonArray 서버에 전송 **/
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = new FormBody.Builder().add("Image", converToBase64(list.get(Integer.parseInt(currentCount.getText().toString())-1)).replace("\n", "")).add("Imagename", imagename).build();
+        Request request = new Request.Builder().url(url).post(requestBody).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("error", "Connect Server Error is " + e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d("aaaa", "Response Body is " + response.body().string());
+            }
+        });
+
+    }
+
 
     private class ViewPagerAdapter extends PagerAdapter {
         Context context;
