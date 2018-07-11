@@ -139,7 +139,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
     }
 
     private void saveImage(Bitmap finalBitmap, String image_name) {
-        String root = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DCIM+"/Backups/";
+        String root = Environment.getExternalStorageDirectory().toString();
 
         String fname = image_name;
 
@@ -148,10 +148,11 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
         File file1 = new File(root, fname);
         try {
             fOut = new FileOutputStream(file1);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+
         try {
             fOut.flush();
             fOut.close();

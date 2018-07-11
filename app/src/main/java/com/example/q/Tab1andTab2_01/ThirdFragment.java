@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,18 +89,36 @@ public class ThirdFragment extends Fragment {
         refresh_FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /** 1-1. 서버에 request **/
-                JSONObject json_refresh = new JSONObject();
-                try {
-                    json_refresh.put("_refresh", 1);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                connectServer.requestPost(url, json_refresh);
-                /** 1-3. response 받아서 띄우는 코드 **/
+                String url2 = "http://52.231.71.25:8080/";
+                Toast.makeText(getActivity(), "Refresh", Toast.LENGTH_SHORT).show();
+                OkHttpClient okHttpClient = new OkHttpClient();
+                RequestBody requestBody = new FormBody.Builder().add("_REFRESH", "1").build();
+                Request request = new Request.Builder().url(url2).post(requestBody).build();
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.d("error", "Connect Server Error is " + e.toString());
+                    }
 
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String res = response.body().string();
+                        response.body().close();
+                        try {
+                            JSONObject jsonObject = new JSONObject("{"+"Posts"+":"+res+"}");
+                            JSONArray arr = jsonObject.getJSONArray("Posts");
+                            for(int i=0; i< arr.length(); i++){
+                                contentModelArrayList.add(new ContentModel(arr.getJSONObject(i).getString("_Title"), arr.getJSONObject(i).getString("_Author"), arr.getJSONObject(i).getString("_Text")));
+                                Log.d("title", arr.getJSONObject(i).getString("_Title"));
+                                Log.d("title", arr.getJSONObject(i).getString("_Author"));
+                                Log.d("title", arr.getJSONObject(i).getString("_Text"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-
+                    }
+                });
 
             }
         });

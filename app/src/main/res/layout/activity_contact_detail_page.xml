@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#84fafac3"
+    android:background="@color/forth"
     tools:context=".ContactDetailPage">
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/boy_hand_drawn_face_transparent" />
+            app:srcCompat="@drawable/human" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,9 +34,8 @@
                 android:gravity="right|center_vertical"
                 android:paddingRight="10dp"
                 android:text="이름"
-                android:textColor="#125000"
-                android:textSize="18sp"
-                android:textStyle="italic" />
+                android:textColor="@color/fifth"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/name_TV"
@@ -46,7 +45,7 @@
                 android:gravity="left|center_vertical"
                 android:paddingLeft="10dp"
                 android:text="TextView"
-                android:textColor="#125000"
+                android:textColor="@color/fifth"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -64,9 +63,8 @@
                 android:gravity="right|center_vertical"
                 android:paddingRight="10dp"
                 android:text="전화번호"
-                android:textColor="#125000"
-                android:textSize="18sp"
-                android:textStyle="italic" />
+                android:textColor="@color/fifth"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/phone_TV"
@@ -76,7 +74,7 @@
                 android:gravity="left|center_vertical"
                 android:paddingLeft="10dp"
                 android:text="TextView"
-                android:textColor="#125000"
+                android:textColor="@color/fifth"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -93,9 +91,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="총 통화 시간"
-                android:textColor="#125000"
-                android:textSize="24sp"
-                android:textStyle="italic" />
+                android:textColor="@color/fifth"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/duration_TV"
@@ -104,7 +101,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="TextView"
-                android:textColor="#125000"
+                android:textColor="@color/fifth"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -121,9 +118,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="총 통화 횟수"
-                android:textColor="#125000"
-                android:textSize="24sp"
-                android:textStyle="italic" />
+                android:textColor="@color/fifth"
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/callTimes_TV"
@@ -132,7 +128,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="TextView"
-                android:textColor="#125000"
+                android:textColor="@color/fifth"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -149,9 +145,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="수신 횟수"
-                android:textColor="#125000"
-                android:textSize="24sp"
-                android:textStyle="italic" />
+                android:textColor="@color/fifth"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/receiveTimes_TV"
@@ -160,7 +155,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="TextView"
-                android:textColor="#125000"
+                android:textColor="@color/fifth"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -177,9 +172,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="발신 횟수"
-                android:textColor="#125000"
-                android:textSize="24sp"
-                android:textStyle="italic" />
+                android:textColor="@color/fifth"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/sendTimes_TV"
@@ -188,7 +182,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="TextView"
-                android:textColor="#125000"
+                android:textColor="@color/fifth"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -205,9 +199,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="부재중 횟수"
-                android:textColor="#125000"
-                android:textSize="24sp"
-                android:textStyle="italic" />
+                android:textColor="@color/fifth"
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/absencsTimes_TV"
@@ -216,7 +209,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="TextView"
-                android:textColor="#125000"
+                android:textColor="@color/fifth"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </LinearLayout>

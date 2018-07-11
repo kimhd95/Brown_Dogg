@@ -2,10 +2,16 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <!-- <color name="colorPrimaryDark">#303F9F</color> -->
-    <color name="colorPrimaryDark">#496e00</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimaryDark">#352315</color>
+    <color name="colorAccent">#2A2B2C</color>
     <color name="colorToolbarText">#ede4e4</color>
     <color name="fragment_first_item">#84fafac3</color>
     <color name="sideIndex">#84fafac3</color>
-
+    <color name="third">#E0F7F4</color>
+    <color name="first">#00ACC1</color>
+    <color name="second">#4DD0E1</color>
+    <color name="forth">#FAFAFA</color>
+    <color name="fifth">#2A2B2C</color>
+    <color name="gray">#e2e2e2</color>
+    <color name="brown">#481F01</color>
 </resources>
