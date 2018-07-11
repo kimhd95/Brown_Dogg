@@ -1,6 +1,7 @@
 package com.example.q.Tab1andTab2_01;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -14,7 +15,9 @@ import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -47,7 +50,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class SecondFragment extends Fragment implements View.OnClickListener {
+public class SecondFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     public SecondFragment(){
     }
 
@@ -59,6 +62,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     private int PERMISSION_REQUEST_CODE = 200;
     AlbumView albumView = new AlbumView();
     Button myButton;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
 
@@ -79,13 +83,14 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
         mRecyclerView.setLayoutManager(gridLayoutManager);
         myButton = (Button) view.findViewById(R.id.button2);
         myButton.setOnClickListener(this);
-
-        if (adapter == null) {
-            adapter = new GalleryPickerAdapter(getActivity().getApplicationContext());
-            mRecyclerView.setAdapter(adapter);
-        }
+        adapter = new GalleryPickerAdapter(getActivity().getApplicationContext());
+        mRecyclerView.setAdapter(adapter);
         //Intent intent = new Intent(getActivity(), GalleryActivity.class);
         //startActivity(intent);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_green_dark),getResources().getColor(android.R.color.holo_red_dark)
+                ,getResources().getColor(android.R.color.holo_blue_dark),getResources().getColor(android.R.color.holo_orange_dark) );
         return view;
         //return layout;
     }
@@ -93,6 +98,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         String url = "http://52.231.71.25:8080/";
+        Toast.makeText(getActivity(), "Backup successful!", Toast.LENGTH_SHORT).show();
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder().add("Backup", "1").build();
         Request request = new Request.Builder().url(url).post(requestBody).build();
@@ -106,7 +112,6 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
             public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 response.body().close();
-                Log.d("aaaa", "Response Body is " + res);
                 try {
                     JSONObject jsonObject = new JSONObject("{"+"Pictures"+":"+res+"}");
                     JSONArray arr = jsonObject.getJSONArray("Pictures");
@@ -115,7 +120,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
                         byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                         saveImage(decodedByte, arr.getJSONObject(i).getString("Imagename").replace("\n", ""));
-                        Log.d("", "ok" );
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -126,7 +131,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
     }
 
     private void saveImage(Bitmap finalBitmap, String image_name) {
-        String root = Environment.getExternalStorageDirectory().toString();
+        String root = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DCIM+"/";
         File myDir = new File(root);
         myDir.mkdirs();
         String fname = "Image-" + image_name+ ".jpg";
@@ -176,6 +181,13 @@ public class SecondFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getActivity(),  "Please give permission to use this feature", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        FragmentTransaction ft=getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     public class AlbumView implements LoaderManager.LoaderCallbacks<Cursor>{
