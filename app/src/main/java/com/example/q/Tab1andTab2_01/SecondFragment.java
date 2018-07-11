@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -61,7 +62,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
     String permissions= new String (Manifest.permission.READ_EXTERNAL_STORAGE);
     private int PERMISSION_REQUEST_CODE = 200;
     AlbumView albumView = new AlbumView();
-    Button myButton;
+    ImageButton myButton;
     private SwipeRefreshLayout swipeRefreshLayout;
 
 
@@ -81,7 +82,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(),2);  // 이거는 gallery를 보여주는 것과는 상관없음
         mRecyclerView.setLayoutManager(gridLayoutManager);
-        myButton = (Button) view.findViewById(R.id.button2);
+        myButton = (ImageButton) view.findViewById(R.id.button2);
         myButton.setOnClickListener(this);
         adapter = new GalleryPickerAdapter(getActivity().getApplicationContext());
         mRecyclerView.setAdapter(adapter);
@@ -131,7 +132,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
     }
 
     private void saveImage(Bitmap finalBitmap, String image_name) {
-        String root = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DCIM+"/Screenshots/";
+        String root = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DCIM+"/Backups/";
         File myDir = new File(root);
         myDir.mkdirs();
         String fname = image_name;
