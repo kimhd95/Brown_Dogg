@@ -31,8 +31,8 @@ public class viewDetailBoard extends AppCompatActivity {
         String _ath = intent.getStringExtra("Author");
         String _txt = intent.getStringExtra("Text");
 
-        __Title.setText(_tit);
-        __Author.setText(_ath);
+        __Title.setText("제목 : " + _tit);
+        __Author.setText("작성자 : " + _ath);
         __Text.setText(_txt);
 
         button.setOnClickListener(new View.OnClickListener() {

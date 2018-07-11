@@ -41,17 +41,15 @@ public class ListViewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.item_listview, null);
             holder.tvtime = (TextView) convertView.findViewById(R.id.time_TEXTVIEW);
             holder.tvdesc = (TextView) convertView.findViewById(R.id.description_TEXTVIEW);
-            holder.tvsum = (TextView) convertView.findViewById(R.id.sum_TEXTVIEW);
             convertView.setTag(holder);
             String author = contentModelArrayList.get(position).getAuthor();
             String title = contentModelArrayList.get(position).getTitle();
             holder.tvtime.setText(author);
             holder.tvdesc.setText(title);
-            holder.tvsum.setText(" ");
         return convertView;
     }
 
     private class ViewHolder {
-        protected TextView tvtime, tvdesc, tvsum;
+        protected TextView tvtime, tvdesc;
     }
 }

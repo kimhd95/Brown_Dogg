@@ -24,8 +24,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="지출 내용 입력"
+            android:hint="제목을 입력하세요."
             android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="닉네임"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/nickname_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Anonymous" />
 
         <TextView
             android:id="@+id/sum__TEXTVIEW"
@@ -39,6 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:ems="10"
+            android:hint="내용을 입력하세요."
             android:inputType="textMultiLine" />
 
         <Button

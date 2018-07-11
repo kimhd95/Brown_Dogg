@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 public class AddItemActivity extends AppCompatActivity {
     private Intent intent;
-    private EditText title_EditText, text_EditText;
+    private EditText title_EditText, text_EditText, author_EditText;
     private static final String url = "http://52.231.69.145:8080";
 
     @Override
@@ -22,6 +22,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         title_EditText = (EditText)findViewById(R.id.title__EDITTEXT);
         text_EditText = (EditText)findViewById(R.id.text_EDITTEXT);
+        author_EditText = (EditText)findViewById(R.id.nickname_edittext);
         Button button = (Button)findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -34,7 +35,7 @@ public class AddItemActivity extends AppCompatActivity {
                     json_send.put("_ADD", 1);
                     json_send.put("_title", title_EditText.getText().toString());
                     json_send.put("_text", text_EditText.getText().toString());
-                    json_send.put("_author", "anonymous");
+                    json_send.put("_author", author_EditText.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
