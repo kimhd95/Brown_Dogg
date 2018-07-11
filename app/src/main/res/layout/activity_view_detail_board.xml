@@ -59,8 +59,11 @@
             android:id="@+id/button_board"
             android:layout_width="50dp"
             android:layout_height="0dp"
-            android:layout_weight="1.2"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1.2"
+            android:background="#481F01"
+            android:textColor="#FFFFFF"
             android:text="닫기" />
 
     </LinearLayout>

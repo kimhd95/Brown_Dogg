@@ -59,9 +59,13 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="#481F01"
+            android:textColor="#FFFFFF"
             android:text="입력 완료" />
 
     </LinearLayout>
