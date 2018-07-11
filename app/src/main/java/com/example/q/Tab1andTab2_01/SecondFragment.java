@@ -71,6 +71,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
     AlbumView albumView = new AlbumView();
     ImageButton myButton;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private static final String url = "http://52.231.69.145:8080";
 
 
 
@@ -105,7 +106,6 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
 
     @Override
     public void onClick(View v) {
-        String url = "http://52.231.71.25:8080/";
         Toast.makeText(getActivity(), "Backup successful!", Toast.LENGTH_SHORT).show();
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder().add("Backup", "1").build();
@@ -139,7 +139,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
     }
 
     private void saveImage(Bitmap finalBitmap, String image_name) {
-        String root = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DCIM+"/Backups/";
+        String root = Environment.getExternalStorageDirectory().toString();
 
         String fname = image_name;
 
@@ -148,10 +148,11 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
         File file1 = new File(root, fname);
         try {
             fOut = new FileOutputStream(file1);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+
         try {
             fOut.flush();
             fOut.close();

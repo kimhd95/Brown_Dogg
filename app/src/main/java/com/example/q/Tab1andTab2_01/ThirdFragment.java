@@ -129,7 +129,7 @@ public class ThirdFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject("{" + "Board" + ":" + res + "}");
                             JSONArray arr = jsonObject.getJSONArray("Board");
-                            for (int i = 0; i < arr.length(); i++) {
+                            for(int i=0; i< arr.length(); i++){
                                 contentModelArrayList.add(new ContentModel(arr.getJSONObject(i).getString("_Title"), arr.getJSONObject(i).getString("_Author"), arr.getJSONObject(i).getString("_Text")));
                             }
                         } catch (JSONException e) {
@@ -146,9 +146,8 @@ public class ThirdFragment extends Fragment {
                 Toast.makeText(getActivity(), "Refresh", Toast.LENGTH_SHORT).show();
             }
         });
-
         return view;
-    }
+        }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

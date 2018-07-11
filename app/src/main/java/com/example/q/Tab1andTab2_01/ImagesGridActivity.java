@@ -42,6 +42,7 @@ public class ImagesGridActivity extends AppCompatActivity implements LoaderManag
     private static final int URL_LOADER = 0;
     GalleryPickerAdapter adapter;
     static int position;
+    private static final String url = "http://52.231.69.145:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,6 @@ public class ImagesGridActivity extends AppCompatActivity implements LoaderManag
     }
 
     public void onClick(View v) {
-        String url = "http://52.231.71.25:8080/";
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder().add("Backup", "1").build();
         Request request = new Request.Builder().url(url).post(requestBody).build();
