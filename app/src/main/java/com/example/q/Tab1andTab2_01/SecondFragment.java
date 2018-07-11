@@ -3,6 +3,8 @@ package com.example.q.Tab1andTab2_01;
 import android.Manifest;
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -12,10 +14,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContentResolverCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,11 +41,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -133,20 +140,33 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
 
     private void saveImage(Bitmap finalBitmap, String image_name) {
         String root = Environment.getExternalStorageDirectory().toString()+"/"+Environment.DIRECTORY_DCIM+"/Backups/";
-        File myDir = new File(root);
-        myDir.mkdirs();
+
         String fname = image_name;
-        File file = new File(myDir, fname);
-        if (file.exists()) file.delete();
-        Log.i("LOAD", root + fname);
+
+
+        OutputStream fOut = null;
+        File file1 = new File(root, fname);
         try {
-            FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.flush();
-            out.close();
-        } catch (Exception e) {
+            fOut = new FileOutputStream(file1);
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+        try {
+            fOut.flush();
+            fOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, image_name);
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis ());
+        values.put(MediaStore.Images.ImageColumns.BUCKET_ID, file1.toString().toLowerCase(Locale.US).hashCode());
+        values.put(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, file1.getName().toLowerCase(Locale.US));
+        values.put("_data", file1.getAbsolutePath());
+
+        ContentResolver cr = getActivity().getContentResolver();
+        cr.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
     @Override
