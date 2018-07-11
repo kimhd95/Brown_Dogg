@@ -18,4 +18,12 @@
         android:tint="#ffffff"
         app:srcCompat="@android:drawable/ic_input_add" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_rotate" />
+
 </android.support.design.widget.CoordinatorLayout>

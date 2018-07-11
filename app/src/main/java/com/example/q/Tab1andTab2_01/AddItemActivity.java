@@ -7,23 +7,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class AddItemActivity extends AppCompatActivity {
     private Intent intent;
-    private EditText year_EditText, month_EditText, day_EditText;
-    private EditText hour_EditText, min_EditText, desc_EditText, sum_EditText;
+    private EditText title_EditText, text_EditText;
+    private static final String url = "http://52.231.69.145:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final ConnectServer connectS = new ConnectServer();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-        year_EditText = (EditText)findViewById(R.id.year__EDITTEXT);
-        month_EditText = (EditText)findViewById(R.id.month__EDITTEXT);
-        day_EditText = (EditText)findViewById(R.id.day__EDITTEXT);
-        hour_EditText = (EditText)findViewById(R.id.hour__EDITTEXT);
-        min_EditText = (EditText)findViewById(R.id.minute__EDITTEXT);
-        desc_EditText = (EditText)findViewById(R.id.desc__EDITTEXT);
-        sum_EditText = (EditText)findViewById(R.id.sum__EDITTEXT);
+        title_EditText = (EditText)findViewById(R.id.title__EDITTEXT);
+        text_EditText = (EditText)findViewById(R.id.text_EDITTEXT);
         Button button = (Button)findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -31,19 +30,18 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View view) {
                 intent = new Intent();
 
-                if (year_EditText.getText().toString().getBytes().length <= 0 || month_EditText.getText().toString().getBytes().length <= 0 ||
-                        day_EditText.getText().toString().getBytes().length <= 0 || hour_EditText.getText().toString().getBytes().length <= 0 ||
-                        min_EditText.getText().toString().getBytes().length <= 0 || desc_EditText.getText().toString().getBytes().length <= 0 ||
-                        sum_EditText.getText().toString().getBytes().length <= 0)
-                    finish();
-
-                intent.putExtra("Year", year_EditText.getText().toString());
-                intent.putExtra("Month", month_EditText.getText().toString());
-                intent.putExtra("Day", day_EditText.getText().toString());
-                intent.putExtra("Hour", hour_EditText.getText().toString());
-                intent.putExtra("Minute", min_EditText.getText().toString());
-                intent.putExtra("Desc", desc_EditText.getText().toString());
-                intent.putExtra("Sum", sum_EditText.getText().toString());
+                JSONObject json_send = new JSONObject();
+                try {
+                    json_send.put("_ADD", 1);
+                    json_send.put("_title", title_EditText.getText().toString());
+                    json_send.put("_text", text_EditText.getText().toString());
+                    json_send.put("_author", "anonymous");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                /** 3-1. 서버에 저장하라고 request **/
+                connectS.requestPost(url, json_send);
+                
                 setResult(1234, intent);
                 finish();
             }
