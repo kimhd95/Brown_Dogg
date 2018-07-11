@@ -17,7 +17,6 @@ public class AddItemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final ConnectServer connectS = new ConnectServer();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
@@ -40,8 +39,9 @@ public class AddItemActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 /** 3-1. 서버에 저장하라고 request **/
+                ConnectServer connectS = new ConnectServer();
                 connectS.requestPost(url, json_send);
-                
+
                 setResult(1234, intent);
                 finish();
             }
