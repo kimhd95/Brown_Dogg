@@ -43,6 +43,7 @@ public class ImageViewActivity extends AppCompatActivity {
     ArrayList<String> list;
     Context context;
     String imagename;
+    private static final String url = "http://52.231.69.145:8080";
 
 
     @Override
@@ -97,8 +98,6 @@ public class ImageViewActivity extends AppCompatActivity {
     }
 
     public void sendimage(View v) {
-        String url = "http://52.231.71.25:8080/";
-
         Toast.makeText(this, "Upload successful!", Toast.LENGTH_SHORT).show();
         /** c. jsonArray 서버에 전송 **/
         OkHttpClient okHttpClient = new OkHttpClient();
