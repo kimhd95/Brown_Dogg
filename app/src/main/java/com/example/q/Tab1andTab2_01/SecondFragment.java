@@ -106,7 +106,7 @@ public class SecondFragment extends Fragment implements View.OnClickListener, Sw
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getActivity(), "Backup successful!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Load Success", Toast.LENGTH_SHORT).show();
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder().add("Backup", "1").build();
         Request request = new Request.Builder().url(url).post(requestBody).build();

@@ -24,9 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_download"
             android:onClick="onClick"
-            android:src="@drawable/ic_download"
-            android:background="@drawable/ic_download"/>
+            android:scaleX="2"
+            android:scaleY="2"
+            android:src="@drawable/ic_download" />
 
     </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

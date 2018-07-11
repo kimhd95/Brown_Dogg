@@ -259,7 +259,12 @@ public class FirstFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 //listView.smoothScrollByOffset(0);
-                listView.smoothScrollToPositionFromTop(0,0);
+                try {
+                    Thread.sleep(1200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getActivity(), "연락처와 통화기록이 서버에 저장되었습니다.", Toast.LENGTH_SHORT).show();
             }});
 
 

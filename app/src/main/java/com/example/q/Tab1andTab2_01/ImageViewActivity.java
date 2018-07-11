@@ -98,7 +98,7 @@ public class ImageViewActivity extends AppCompatActivity {
     }
 
     public void sendimage(View v) {
-        Toast.makeText(this, "Upload successful!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "서버 업로드에 성공하였습니다.", Toast.LENGTH_SHORT).show();
         /** c. jsonArray 서버에 전송 **/
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder().add("Image", converToBase64(list.get(Integer.parseInt(currentCount.getText().toString())-1)).replace("\n", "")).add("Imagename", imagename).build();
